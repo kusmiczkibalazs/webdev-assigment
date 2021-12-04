@@ -5,7 +5,9 @@ import hu.unideb.inf.model.CarDto;
 import hu.unideb.inf.repository.CarRepository;
 import hu.unideb.inf.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +32,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void updateCar(CarDto carDto) {
-        Optional<Car> car = carRepository.findByCarBrandAndCarType(carDto.getCarBrand(), carDto.getCarType());
+        Optional<Car> car = carRepository.findById(carDto.getId());
 
         if (car.isPresent()) {
             Car toUpdate = car.get();
@@ -42,11 +44,12 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCar(CarDto carDto) {
-        carRepository.deleteCarByCarBrandAndCarType(carDto.getCarBrand(), carDto.getCarType());
+        carRepository.deleteByCarBrandAndCarType(carDto.getCarBrand(), carDto.getCarType());
     }
 
     private CarDto convertEntityToDto(Car car) {
         return CarDto.builder()
+                .id(car.getId())
                 .carBrand(car.getCarBrand())
                 .carType(car.getCarType())
                 .build();

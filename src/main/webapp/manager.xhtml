@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:sec="http://www.springframework.org/security/tags">
+<ui:composition template="layout.xhtml">
+    <ui:define name="content">
+        <h:form id="carForm">
+            <p:panel header="Car list manager" id="manager">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="brand" value="Car brand: " />
+                    <p:inputText id="brand" size="40"
+                                 value="#{carController.carDto.carBrand}" required="true"
+                                 requiredMessage="Please enter a car brand " />
+
+                    <p:outputLabel for="type" value="Car type: " />
+                    <p:inputText id="type" size="40"
+                                 value="#{carController.carDto.carType}" required="true"
+                                 requiredMessage="Please enter a car type " />
+
+                    <h:commandButton value="Create"
+                                     action="#{carController.saveCar}">
+                        <f:ajax execute="carForm" render="carlist manager" />
+                    </h:commandButton>
+                    <h:commandButton value="Update"
+                                     action="#{carController.editCar}"
+                                     disabled="#{carController.isUpdateDisabled}">
+                        <f:ajax execute="carForm" render="carlist manager" />
+                    </h:commandButton>
+                </h:panelGrid>
+            </p:panel>
+            <p:panel header="Car list" id="carlist">
+                <p:dataTable id="table" var="car"
+                             value="#{carController.carDtoList}">
+                    <p:column>
+                        <f:facet name="header">Brand</f:facet>
+                        <h:outputText value="#{car.carBrand}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Type</f:facet>
+                        <h:outputText value="#{car.carType}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="action">
+                        <f:facet name="header">Action</f:facet>
+                        <h:commandLink value="Edit"
+                                       action="#{carController.copyFieldsToInput(car)}">
+                            <f:ajax execute="action" render="carForm" />
+                        </h:commandLink> /
+<!--                    <sec:authorize access="hasRole('ROLE_ADMIN')">-->
+                        <h:commandLink value="Delete"
+                                       action="#{carController.removeCar(car)}">
+                            <f:ajax execute="action" render="table" />
+                        </h:commandLink>
+<!--                    </sec:authorize>-->
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

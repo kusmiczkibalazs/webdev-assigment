@@ -14,4 +14,5 @@ public class CarDto {
     private Integer id;
     private String carBrand;
     private String carType;
+    private String carColor;
 }

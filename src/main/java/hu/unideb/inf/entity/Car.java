@@ -20,9 +20,12 @@ public class Car {
     private String carBrand;
     @Column(name = "CAR_TYPE", nullable = false)
     private String carType;
+    @Column(name = "CAR_COLOR", nullable = false)
+    private String carColor;
 
-    public Car(String carBrand, String carType) {
+    public Car(String carBrand, String carType, String carColor) {
         this.carBrand = carBrand;
         this.carType = carType;
+        this.carColor = carColor;
     }
 }

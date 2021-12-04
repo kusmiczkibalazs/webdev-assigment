@@ -14,5 +14,5 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
     Optional<Car> findById(Integer id);
 
     @Transactional
-    void deleteByCarBrandAndCarType(String carBrand, String carType);
+    void deleteByCarBrandAndCarTypeAndCarColor(String carBrand, String carType, String carColor);
 }

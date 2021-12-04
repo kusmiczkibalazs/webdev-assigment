@@ -26,7 +26,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void createCar(CarDto carDto) {
-        Car car = new Car(carDto.getCarBrand(), carDto.getCarType());
+        Car car = new Car(carDto.getCarBrand(), carDto.getCarType(), carDto.getCarColor());
         carRepository.save(car);
     }
 
@@ -38,13 +38,14 @@ public class CarServiceImpl implements CarService {
             Car toUpdate = car.get();
             toUpdate.setCarBrand(carDto.getCarBrand());
             toUpdate.setCarType(carDto.getCarType());
+            toUpdate.setCarColor(carDto.getCarColor());
             carRepository.save(toUpdate);
         }
     }
 
     @Override
     public void deleteCar(CarDto carDto) {
-        carRepository.deleteByCarBrandAndCarType(carDto.getCarBrand(), carDto.getCarType());
+        carRepository.deleteByCarBrandAndCarTypeAndCarColor(carDto.getCarBrand(), carDto.getCarType(), carDto.getCarColor());
     }
 
     private CarDto convertEntityToDto(Car car) {
@@ -52,6 +53,7 @@ public class CarServiceImpl implements CarService {
                 .id(car.getId())
                 .carBrand(car.getCarBrand())
                 .carType(car.getCarType())
+                .carColor(car.getCarColor())
                 .build();
     }
 }

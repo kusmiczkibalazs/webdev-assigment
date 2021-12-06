@@ -1,77 +1,120 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:sec="http://www.springframework.org/security/tags">
-<ui:composition template="layout.xhtml">
-    <ui:define name="content">
-        <h:form id="carForm">
-            <p:panel header="Car list manager" id="manager">
-                <h:panelGrid columns="2">
-                    <p:outputLabel for="brand" value="Car brand: " />
-                    <p:inputText id="brand" size="40"
-                                 value="#{carController.carDto.carBrand}" required="true"
-                                 requiredMessage="Please enter a car brand " />
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Car list manager</title>
 
-                    <p:outputLabel for="type" value="Car type: " />
-                    <p:inputText id="type" size="40"
-                                 value="#{carController.carDto.carType}" required="true"
-                                 requiredMessage="Please enter a car type " />
+        <style>
+            * {
+                font-family: sans-serif;
+            }
 
-                    <p:outputLabel for="type" value="Car color: " />
-                    <p:inputText id="color" size="40"
-                                 value="#{carController.carDto.carColor}" required="true"
-                                 requiredMessage="Please enter a car color " />
+            .action-button {
+                background-color: #007bff;
+                color: white;
+                padding: .3em 1em;
+                text-decoration: none;
+                border: none;
+                transition: .2s ease-in;
+            }
 
-                    <h:commandButton value="Create"
-                                     action="#{carController.saveCar}">
-                        <f:ajax execute="carForm" render="carlist manager" />
-                    </h:commandButton>
-                    <h:commandButton value="Update"
-                                     action="#{carController.editCar}"
-                                     disabled="#{carController.isUpdateDisabled}">
-                        <f:ajax execute="carForm" render="carlist manager" />
-                    </h:commandButton>
-                </h:panelGrid>
-            </p:panel>
-            <p:panel header="Car list" id="carlist">
-                <p:dataTable id="table" var="car"
-                             value="#{carController.carDtoList}">
-                    <p:column>
-                        <f:facet name="header">Brand</f:facet>
-                        <h:outputText value="#{car.carBrand}" />
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">Type</f:facet>
-                        <h:outputText value="#{car.carType}">
-                        </h:outputText>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">Color</f:facet>
-                        <h:outputText value="#{car.carColor}">
-                        </h:outputText>
-                    </p:column>
-                    <p:column id="action">
-                        <f:facet name="header">Edit or delete</f:facet>
-                        <h:commandLink value="Edit"
-                                       action="#{carController.copyFieldsToInput(car)}">
-                            <f:ajax execute="action" render="carForm" />
-                        </h:commandLink> --- / ---
-<!--                    <sec:authorize access="hasRole('ROLE_ADMIN')">-->
-                        <h:commandLink value="Delete"
-                                       action="#{carController.removeCar(car)}">
-                            <f:ajax execute="action" render="table" />
-                        </h:commandLink>
-<!--                    </sec:authorize>-->
-                    </p:column>
+            .action-button:disabled {
+                background-color: #e3e3e3;
+                color: #777777;
+                transition: .2s ease-in;
+            }
 
-                </p:dataTable>
-            </p:panel>
-        </h:form>
-    </ui:define>
-</ui:composition>
+            .logout-button {
+                font-size: 18px;
+                padding: .5em 1em;
+                position: absolute;
+                right: 16px;
+                text-transform: uppercase;
+            }
+
+            #carForm {
+                margin-top: 2.8em;
+            }
+
+            td {
+                text-align: center;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <h:outputLink value="/cars/logout" styleClass="action-button logout-button">Logout</h:outputLink>
+                <h:form id="carForm">
+                    <p:panel header="Car list manager" id="manager">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="brand" value="Car brand: "/>
+                            <p:inputText id="brand" size="40"
+                                         value="#{carController.carDto.carBrand}" required="true"
+                                         requiredMessage="Please enter a car brand "/>
+
+                            <p:outputLabel for="type" value="Car type: "/>
+                            <p:inputText id="type" size="40"
+                                         value="#{carController.carDto.carType}" required="true"
+                                         requiredMessage="Please enter a car type "/>
+
+                            <p:outputLabel for="type" value="Car color: "/>
+                            <p:inputText id="color" size="40"
+                                         value="#{carController.carDto.carColor}" required="true"
+                                         requiredMessage="Please enter a car color "/>
+
+                            <h:commandButton value="Create"
+                                             action="#{carController.saveCar}"
+                                             styleClass="action-button">
+                                <f:ajax execute="carForm" render="carlist manager"/>
+                            </h:commandButton>
+                            <h:commandButton value="Update"
+                                             action="#{carController.editCar}"
+                                             styleClass="action-button"
+                                             disabled="#{carController.isUpdateDisabled}">
+                                <f:ajax execute="carForm" render="carlist manager"/>
+                            </h:commandButton>
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel header="Car list" id="carlist">
+                        <p:dataTable id="table" var="car"
+                                     value="#{carController.carDtoList}">
+                            <p:column>
+                                <f:facet name="header">Brand</f:facet>
+                                <h:outputText value="#{car.carBrand}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Type</f:facet>
+                                <h:outputText value="#{car.carType}">
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Color</f:facet>
+                                <h:outputText value="#{car.carColor}">
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="action">
+                                <f:facet name="header">Update or delete</f:facet>
+                                <h:commandLink value="Update"
+                                               action="#{carController.copyFieldsToInput(car)}">
+                                    <f:ajax execute="action" render="carForm"/>
+                                </h:commandLink> ---
+                                <h:commandLink value="Delete"
+                                               action="#{carController.removeCar(car)}">
+                                    <f:ajax execute="action" render="table"/>
+                                </h:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</f:view>
 </html>

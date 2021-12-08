@@ -33,6 +33,7 @@ public class CarController {
 
     public void saveCar() {
         carService.createCar(this.getCarDto());
+        carDto = null;
         listCars();
     }
 
@@ -44,6 +45,7 @@ public class CarController {
     public void editCar() {
         carService.updateCar(this.getCarDto());
         isUpdateDisabled = true;
+        carDto = null;
         listCars();
     }
 

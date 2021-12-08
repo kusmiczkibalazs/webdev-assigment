@@ -71,7 +71,8 @@
 
                             <h:commandButton value="Create"
                                              action="#{carController.saveCar}"
-                                             styleClass="action-button">
+                                             styleClass="action-button"
+                                             disabled="#{!carController.isUpdateDisabled}">
                                 <f:ajax execute="carForm" render="carlist manager"/>
                             </h:commandButton>
                             <h:commandButton value="Update"

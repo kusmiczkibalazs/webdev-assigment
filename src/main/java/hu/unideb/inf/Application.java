@@ -24,12 +24,11 @@ public class Application {
 
     @Bean
     public ServletRegistrationBean<Servlet> facesServletRegistration() {
-        ServletRegistrationBean<Servlet> registration = new ServletRegistrationBean<Servlet>(facesServlet(), "*.jsf");
-        return registration;
+        return new ServletRegistrationBean<>(facesServlet(), "*.jsf");
     }
 
     @Bean
     public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
-        return new ServletListenerRegistrationBean<ConfigureListener>(new ConfigureListener());
+        return new ServletListenerRegistrationBean<>(new ConfigureListener());
     }
 }

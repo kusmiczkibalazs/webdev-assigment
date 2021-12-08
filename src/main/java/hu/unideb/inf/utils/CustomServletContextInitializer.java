@@ -10,7 +10,7 @@ import javax.servlet.ServletException;
 public class CustomServletContextInitializer implements ServletContextInitializer {
 
     @Override
-    public void onStartup(ServletContext sc) throws ServletException {
+    public void onStartup(ServletContext sc) {
         sc.setInitParameter("primefaces.THEME", "excite-bike");
     }
 
